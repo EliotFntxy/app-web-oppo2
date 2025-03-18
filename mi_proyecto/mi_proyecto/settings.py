@@ -27,7 +27,7 @@ DEBUG = 'RENDER' not in os.environ
 
 ALLOWED_HOSTS = []
 
-RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDEL_EXTERNAL_HOSTNAME') 
+RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME') 
 if RENDER_EXTERNAL_HOSTNAME:
     ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
 
@@ -81,16 +81,30 @@ WSGI_APPLICATION = 'mi_proyecto.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'base_de_datos_oppo',
-        'USER': 'root',
-        'PASSWORD': 'Eliotsaid14.',
-        'HOST': 'localhost',
-        'PORT': '3306',
+if DEBUG:
+    # Configuración para desarrollo local
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'base_de_datos_oppo',
+            'USER': 'root',
+            'PASSWORD': 'Eliotsaid14.',
+            'HOST': 'localhost',
+            'PORT': '3306',
+        }
     }
-}
+else:
+    # Configuración para producción (Render)
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': os.environ.get('DB_NAME', 'base_de_datos_oppo'),
+            'USER': os.environ.get('DB_USER', 'usuario_db'),
+            'PASSWORD': os.environ.get('DB_PASSWORD', 'contraseña_db'),
+            'HOST': os.environ.get('DB_HOST', 'host_externo'),
+            'PORT': os.environ.get('DB_PORT', '3306'),
+        }
+    }
 
 
 
