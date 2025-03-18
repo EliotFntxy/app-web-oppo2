@@ -82,7 +82,7 @@ WSGI_APPLICATION = 'mi_proyecto.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 if DEBUG:
-    # Configuración para desarrollo local
+    # Configuración para desarrollo local (mantén MySQL)
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
@@ -94,19 +94,17 @@ if DEBUG:
         }
     }
 else:
-    # Configuración para producción (Render)
+    # Configuración para producción (PostgreSQL en Render)
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.mysql',
-            'NAME': os.environ.get('DB_NAME', 'base_de_datos_oppo'),
-            'USER': os.environ.get('DB_USER', 'usuario_db'),
-            'PASSWORD': os.environ.get('DB_PASSWORD', 'contraseña_db'),
-            'HOST': os.environ.get('DB_HOST', 'host_externo'),
-            'PORT': os.environ.get('DB_PORT', '3306'),
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': os.environ.get('POSTGRES_DB'),
+            'USER': os.environ.get('POSTGRES_USER'),
+            'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
+            'HOST': os.environ.get('POSTGRES_HOST'),
+            'PORT': os.environ.get('POSTGRES_PORT', '5432'),
         }
     }
-
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
